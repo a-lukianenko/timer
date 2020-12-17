@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function StopWatch() {
   const classes = useStyles();
-  const timer = useSelector(state => state.timer.timer);
+  const timer = useSelector(state => state.tasks.timer);
 
   return (
     <Paper className={classes.root} elevation={3}>
-      <span>{timer.toTimeString().slice(0, 8)}</span>
+      <span>{timer.toUTCString().slice(-12, -4)}</span>
     </Paper>
   );
 }

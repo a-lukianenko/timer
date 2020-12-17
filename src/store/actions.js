@@ -1,27 +1,30 @@
 let interval;
-export function startTimer() {
+export function startTimer(task) {
   return dispatch => {
+    !localStorage.getItem("taskInQueue") &&
+      localStorage.setItem("taskInQueue", "true");
     dispatch(setButtonTextStop());
+    dispatch(addTask(task));
     interval = setInterval(() => {
       dispatch({ type: "START_TIMER" });
     }, 1000);
   };
 }
 
-export function stopTimer() {
+export function stopTimer(title) {
   return dispatch => {
     if (!interval) return;
     clearInterval(interval);
+    dispatch(setTaskEndTime(Date.now(), title));
+    dispatch(setCurrentTaskName(""));
     dispatch(setButtonTextStart());
-    dispatch(setTaskEndTime(new Date().getTime()));
     dispatch({ type: "STOP_TIMER" });
   };
 }
 
-export function addTask(payload) {
+export function addTask(task) {
   return dispatch => {
-    dispatch({ type: "ADD_TASK", payload });
-    dispatch(setCurrentTaskName(""));
+    dispatch({ type: "ADD_TASK", task });
   };
 }
 
@@ -44,10 +47,11 @@ export function setCurrentTaskName(name) {
   };
 }
 
-export function setTaskEndTime(timestamp) {
+export function setTaskEndTime(timestamp, title) {
   return {
     type: "SET_TASK_END_TIME",
     timestamp,
+    title,
   };
 }
 

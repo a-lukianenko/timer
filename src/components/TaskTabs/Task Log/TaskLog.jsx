@@ -12,7 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { ButtonContainer } from "../../ButtonContainer/ButtonContainer";
 
-import prettyDate from "../../../utils/prettyDate";
+import { prettyDate, prettyDateUTC } from "../../../utils/prettyDate";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -31,18 +31,6 @@ const StyledTableRow = withStyles(theme => ({
     },
   },
 }))(TableRow);
-
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
-
-// const rows = [
-//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-//   createData("Eclair", 262, 16.0, 24, 6.0),
-//   createData("Cupcake", 305, 3.7, 67, 4.3),
-//   createData("Gingerbread", 356, 16.0, 49, 3.9),
-// ];
 
 const useStyles = makeStyles({
   table: {
@@ -69,29 +57,31 @@ export default function TaskLog() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tasks.map((task, i) => (
-            <StyledTableRow key={i.toString()}>
-              <StyledTableCell component='th' scope='row'>
-                {i + 1}
-              </StyledTableCell>
-              <StyledTableCell align='right'>{task.title}</StyledTableCell>
-              <StyledTableCell align='right'>
-                {prettyDate(task.startTime)}
-              </StyledTableCell>
-              <StyledTableCell align='right'>
-                {prettyDate(task.endTime)}
-              </StyledTableCell>
-              <StyledTableCell align='right'>
-                {prettyDate(task.timeSpent)}
-              </StyledTableCell>
-              <StyledTableCell align='right'>
-                <ButtonContainer name='INFO' size='small' />
-              </StyledTableCell>
-              <StyledTableCell align='right'>
-                <ButtonContainer name='DELETE' size='small' />
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {tasks.map((task, i) =>
+            task.title ? (
+              <StyledTableRow key={i.toString()}>
+                <StyledTableCell component='th' scope='row'>
+                  {i + 1}
+                </StyledTableCell>
+                <StyledTableCell align='right'>{task.title}</StyledTableCell>
+                <StyledTableCell align='right'>
+                  {prettyDate(task.startTime)}
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  {prettyDate(task.endTime)}
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  {prettyDateUTC(task.timeSpent)}
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  <ButtonContainer name='INFO' size='small' />
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  <ButtonContainer name='DELETE' size='small' />
+                </StyledTableCell>
+              </StyledTableRow>
+            ) : undefined
+          )}
         </TableBody>
       </Table>
     </TableContainer>

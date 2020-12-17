@@ -2,16 +2,30 @@ const initialState = {
   currentTask: "",
   tasks: JSON.parse(localStorage.getItem("tasks")) || [],
   warning: false,
+  timer:
+    localStorage.getItem("taskInQueue") && localStorage.getItem("tasks")
+      ? new Date(
+          Date.now() -
+            JSON.parse(localStorage.getItem("tasks")).slice(-1)[0].startTime
+        )
+      : new Date(0),
 };
 
 export default function tasksReducer(state = initialState, action) {
   switch (action.type) {
+    case "START_TIMER":
+      return {
+        ...state,
+        timer: new Date(new Date(state.timer).getTime() + 1000),
+      };
+    case "STOP_TIMER":
+      return { ...state, timer: new Date(0) };
     case "SET_CURRENT_TASK":
       return { ...state, currentTask: action.name };
     case "ADD_TASK":
       const updatedTasks = state.tasks.concat([
         {
-          title: action.payload,
+          title: action.task,
           startTime: Date.now(),
           endTime: "--:--:--",
           timeSpent: "--:--:--",
@@ -20,7 +34,7 @@ export default function tasksReducer(state = initialState, action) {
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));
       return {
         ...state,
-        currentTask: action.payload,
+        currentTask: "",
         tasks: updatedTasks,
       };
     case "SET_TASK_END_TIME":
@@ -30,6 +44,7 @@ export default function tasksReducer(state = initialState, action) {
           {
             ...state.tasks.slice(-1)[0],
             endTime: action.timestamp,
+            title: action.title ? action.title : state.tasks.slice(-1)[0].title,
             timeSpent:
               action.timestamp - state.tasks[state.tasks.length - 1].startTime,
           },
@@ -37,7 +52,7 @@ export default function tasksReducer(state = initialState, action) {
       localStorage.setItem("tasks", JSON.stringify(completedTasks));
       return {
         ...state,
-        tasks: completedTasks,
+        tasks: JSON.parse(localStorage.getItem("tasks")),
       };
     case "SHOW_WARNING":
       return { ...state, warning: true };
