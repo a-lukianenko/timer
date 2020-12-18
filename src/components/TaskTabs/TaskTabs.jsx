@@ -1,4 +1,6 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -6,7 +8,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import TaskLog from "./Task Log/TaskLog";
+import TaskLog from "./TaskLog/TaskLog";
+import TaskChart from "./TaskChart/TaskChart";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,22 +61,46 @@ export default function TaskTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label='simple tabs example'
-        >
-          <Tab label='TASKS LOG' {...a11yProps(0)} />
-          <Tab label='TASKS CHART' {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <TaskLog />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        TASK CHART
-      </TabPanel>
+      <Router>
+        <AppBar position='static'>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label='simple tabs example'
+          >
+            <Tab
+              label='TASKS LOG'
+              {...a11yProps(0)}
+              component={Link}
+              to='/tasks_log'
+            />
+            <Tab
+              label='TASKS CHART'
+              {...a11yProps(1)}
+              component={Link}
+              to='/tasks_chart'
+            />
+          </Tabs>
+        </AppBar>
+        <Switch>
+          <Route exact path='/'>
+            <TabPanel value={value} index={0}>
+              <TaskLog />
+            </TabPanel>
+          </Route>
+          <Route path='/tasks_log'>
+            <TabPanel value={value} index={0}>
+              <TaskLog />
+            </TabPanel>
+          </Route>
+          <Route path='/tasks_chart'>
+            <TabPanel value={value} index={1}>
+              <TaskChart />
+            </TabPanel>
+          </Route>
+          <Route path='*'>No match</Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
