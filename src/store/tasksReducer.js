@@ -2,13 +2,12 @@ const initialState = {
   currentTask: "",
   tasks: JSON.parse(localStorage.getItem("tasks")) || [],
   warning: false,
-  timer:
-    localStorage.getItem("taskInQueue") && localStorage.getItem("tasks")
-      ? new Date(
-          Date.now() -
-            JSON.parse(localStorage.getItem("tasks")).slice(-1)[0].startTime
-        )
-      : new Date(0),
+  timer: localStorage.getItem("runningTask")
+    ? new Date(
+        Date.now() -
+          JSON.parse(localStorage.getItem("tasks")).slice(-1)[0].startTime
+      )
+    : new Date(0),
 };
 
 export default function tasksReducer(state = initialState, action) {
@@ -18,7 +17,7 @@ export default function tasksReducer(state = initialState, action) {
         ...state,
         timer: new Date(new Date(state.timer).getTime() + 1000),
       };
-    case "STOP_TIMER":
+    case "RESET_TIMER":
       return { ...state, timer: new Date(0) };
     case "SET_CURRENT_TASK":
       return { ...state, currentTask: action.name };
@@ -52,7 +51,16 @@ export default function tasksReducer(state = initialState, action) {
       localStorage.setItem("tasks", JSON.stringify(completedTasks));
       return {
         ...state,
-        tasks: JSON.parse(localStorage.getItem("tasks")),
+        tasks: completedTasks,
+      };
+    case "DELETE_TASK":
+      const filteredTasks = state.tasks.filter(
+        task => task.startTime !== action.taskId
+      );
+      localStorage.setItem("tasks", JSON.stringify(filteredTasks));
+      return {
+        ...state,
+        tasks: filteredTasks,
       };
     case "SHOW_WARNING":
       return { ...state, warning: true };

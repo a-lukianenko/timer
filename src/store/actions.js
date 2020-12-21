@@ -1,24 +1,23 @@
 let interval;
-export function startTimer(task) {
+export function startTimer() {
   return dispatch => {
-    !localStorage.getItem("taskInQueue") &&
-      localStorage.setItem("taskInQueue", "true");
+    !localStorage.getItem("runningTask") &&
+      localStorage.setItem("runningTask", "true");
     dispatch(setButtonTextStop());
-    dispatch(addTask(task));
     interval = setInterval(() => {
       dispatch({ type: "START_TIMER" });
     }, 1000);
   };
 }
 
-export function stopTimer(title) {
+export function resetTimer(title) {
   return dispatch => {
     if (!interval) return;
     clearInterval(interval);
-    dispatch(setTaskEndTime(Date.now(), title));
+    // dispatch(setTaskEndTime(Date.now(), title));
     dispatch(setCurrentTaskName(""));
     dispatch(setButtonTextStart());
-    dispatch({ type: "STOP_TIMER" });
+    dispatch({ type: "RESET_TIMER" });
   };
 }
 
@@ -64,5 +63,20 @@ export function showWarning() {
 export function hideWarning() {
   return {
     type: "HIDE_WARNING",
+  };
+}
+
+export function deleteTask(task) {
+  return dispatch => {
+    if (!interval)
+      return dispatch({ type: "DELETE_TASK", taskId: task.startTime });
+
+    if (interval) {
+      clearInterval(interval);
+      dispatch(setButtonTextStart());
+      dispatch({ type: "RESET_TIMER" });
+      dispatch({ type: "DELETE_TASK", taskId: task.startTime });
+      localStorage.setItem("runningTask", "");
+    }
   };
 }

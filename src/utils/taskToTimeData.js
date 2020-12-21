@@ -7,6 +7,9 @@ export function taskToTimeData(task) {
   const endHour = new Date(endTime).getHours();
   const endMinute = new Date(endTime).getMinutes();
 
+  if (startHour === endHour)
+    return [{ hour: startHour, minutes: endMinute - startMinute }];
+
   const data = [
     {
       hour: startHour,
@@ -20,6 +23,5 @@ export function taskToTimeData(task) {
       minutes: 60,
     });
   }
-  data.push({ hour: endHour, minutes: endMinute });
-  return data;
+  return data.concat([{ hour: endHour, minutes: endMinute }]);
 }

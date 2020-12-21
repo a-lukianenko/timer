@@ -13,7 +13,9 @@ import { useSelector } from "react-redux";
 import { taskToTimeData } from "../../../utils/taskToTimeData";
 
 const TaskChart = () => {
-  const task = useSelector(state => state.tasks.tasks[0]);
+  const task = useSelector(
+    state => state.tasks.tasks[state.tasks.tasks.length - 1]
+  );
   return task ? (
     <BarChart
       width={800}
@@ -39,7 +41,7 @@ const TaskChart = () => {
       <Bar barSize={20} type='monotone' dataKey='minutes' fill='#8884d8' />
     </BarChart>
   ) : (
-    <h3>No tasks yet</h3>
+    <h3>Nothing to plot!</h3>
   );
 };
 

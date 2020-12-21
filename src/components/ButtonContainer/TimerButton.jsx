@@ -5,9 +5,11 @@ import ModalWarning from "../Modal/ModalWarning";
 
 import {
   startTimer,
-  stopTimer,
+  resetTimer,
   setCurrentTaskName,
+  setTaskEndTime,
   showWarning,
+  addTask,
 } from "../../store/actions";
 
 const TimerButton = () => {
@@ -19,22 +21,24 @@ const TimerButton = () => {
   );
 
   useEffect(() => {
-    dispatch(stopTimer());
-    localStorage.getItem("taskInQueue") && dispatch(startTimer());
+    dispatch(resetTimer());
+    localStorage.getItem("runningTask") && dispatch(startTimer());
   }, [dispatch]);
 
   function handleClick() {
     if (buttonText === "START") {
-      dispatch(startTimer(currentTask));
+      dispatch(startTimer());
+      dispatch(addTask(currentTask));
     }
     if (buttonText === "STOP") {
       if (!taskTitle && !currentTask) {
         return dispatch(showWarning());
       } else {
-        dispatch(stopTimer(currentTask));
-        localStorage.setItem("taskInQueue", "");
+        dispatch(setTaskEndTime(Date.now(), currentTask));
+        dispatch(resetTimer());
+        localStorage.setItem("runningTask", "");
       }
-      dispatch(stopTimer());
+      dispatch(resetTimer());
       dispatch(setCurrentTaskName(""));
     }
   }

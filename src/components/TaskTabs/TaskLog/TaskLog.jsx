@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,7 +10,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+
 import { ButtonContainer } from "../../ButtonContainer/ButtonContainer";
+import { deleteTask } from "../../../store/actions";
 
 import { prettyDate, prettyDateUTC } from "../../../utils/prettyDate";
 
@@ -41,8 +44,13 @@ const useStyles = makeStyles({
 export default function TaskLog() {
   const classes = useStyles();
   const tasks = useSelector(state => state.tasks.tasks);
+  const dispatch = useDispatch();
 
-  return (
+  function handleClick(task) {
+    dispatch(deleteTask(task));
+  }
+
+  return tasks.length ? (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label='customized table'>
         <TableHead>
@@ -59,7 +67,7 @@ export default function TaskLog() {
         <TableBody>
           {tasks.map((task, i) =>
             task.title ? (
-              <StyledTableRow key={i.toString()}>
+              <StyledTableRow key={task.startTime}>
                 <StyledTableCell component='th' scope='row'>
                   {i + 1}
                 </StyledTableCell>
@@ -77,7 +85,19 @@ export default function TaskLog() {
                   <ButtonContainer name='INFO' size='small' />
                 </StyledTableCell>
                 <StyledTableCell align='right'>
-                  <ButtonContainer name='DELETE' size='small' />
+                  {/* <ButtonContainer
+                    name='DELETE'
+                    size='small'
+                    taskId={task.startTime}
+                  /> */}
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    size='small'
+                    onClick={() => handleClick(task)}
+                  >
+                    DELETE
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ) : undefined
@@ -85,5 +105,7 @@ export default function TaskLog() {
         </TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <h3>No tasks yet!</h3>
   );
 }
