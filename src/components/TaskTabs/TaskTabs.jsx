@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import TaskLog from "./TaskLog/TaskLog";
 import TaskChart from "./TaskChart/TaskChart";
+import TaskInfo from "../TaskInfo/TaskInfo";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -97,6 +98,9 @@ export default function TaskTabs() {
             <TabPanel value={value} index={1}>
               <TaskChart />
             </TabPanel>
+          </Route>
+          <Route path='/tasks/:taskId'>
+            <TaskInfo />
           </Route>
           <Route path='*'>No match</Route>
         </Switch>

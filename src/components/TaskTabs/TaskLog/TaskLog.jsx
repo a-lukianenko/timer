@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -12,7 +13,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-import { ButtonContainer } from "../../ButtonContainer/ButtonContainer";
 import { deleteTask } from "../../../store/actions";
 
 import { prettyDate, prettyDateUTC } from "../../../utils/prettyDate";
@@ -82,14 +82,17 @@ export default function TaskLog() {
                   {prettyDateUTC(task.timeSpent)}
                 </StyledTableCell>
                 <StyledTableCell align='right'>
-                  <ButtonContainer name='INFO' size='small' />
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    size='small'
+                    component={Link}
+                    to={`/tasks/${task.startTime}`}
+                  >
+                    INFO
+                  </Button>
                 </StyledTableCell>
                 <StyledTableCell align='right'>
-                  {/* <ButtonContainer
-                    name='DELETE'
-                    size='small'
-                    taskId={task.startTime}
-                  /> */}
                   <Button
                     variant='contained'
                     color='primary'

@@ -31,15 +31,12 @@ const TimerButton = () => {
       dispatch(addTask(currentTask));
     }
     if (buttonText === "STOP") {
-      if (!taskTitle && !currentTask) {
-        return dispatch(showWarning());
-      } else {
-        dispatch(setTaskEndTime(Date.now(), currentTask));
-        dispatch(resetTimer());
-        localStorage.setItem("runningTask", "");
-      }
-      dispatch(resetTimer());
+      if (!taskTitle && !currentTask) return dispatch(showWarning());
+
       dispatch(setCurrentTaskName(""));
+      dispatch(setTaskEndTime(Date.now(), currentTask));
+      dispatch(resetTimer());
+      localStorage.setItem("runningTask", "");
     }
   }
 
