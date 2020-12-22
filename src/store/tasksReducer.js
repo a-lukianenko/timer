@@ -62,6 +62,10 @@ export default function tasksReducer(state = initialState, action) {
         ...state,
         tasks: filteredTasks,
       };
+    case "GENERATE_TASKS":
+      localStorage.setItem("runningTask", "");
+      localStorage.setItem("tasks", JSON.stringify(action.taskData));
+      return { ...state, tasks: action.taskData };
     case "SHOW_WARNING":
       return { ...state, warning: true };
     case "HIDE_WARNING":

@@ -1,3 +1,4 @@
+import { createTaskData } from "../utils/createTaskData";
 let interval;
 export function startTimer() {
   return dispatch => {
@@ -78,5 +79,13 @@ export function deleteTask(task) {
       dispatch({ type: "DELETE_TASK", taskId: task.startTime });
       localStorage.setItem("runningTask", "");
     }
+  };
+}
+
+export function generateTasks() {
+  const taskData = createTaskData();
+  return {
+    type: "GENERATE_TASKS",
+    taskData: taskData,
   };
 }
