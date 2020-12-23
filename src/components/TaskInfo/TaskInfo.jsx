@@ -9,7 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import { prettyDate, prettyDateUTC } from "../../utils/prettyDate";
+import { formatDate } from "../../utils/formatDate";
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +31,7 @@ export default function TaskInfo() {
     state.tasks.tasks.find(task => task.startTime === +taskId)
   );
 
-  return (
+  return task ? (
     <Card className={classes.root}>
       <CardContent>
         <Typography
@@ -45,12 +45,12 @@ export default function TaskInfo() {
           Title: {task.title}
         </Typography>
         <Typography className={classes.pos} color='textSecondary'>
-          Time spent: {prettyDateUTC(task.timeSpent)}
+          Time spent: {formatDate(task.timeSpent, true)}
         </Typography>
         <Typography variant='body2' component='p'>
-          From: {prettyDate(task.startTime)}
+          From: {formatDate(task.startTime)}
           <br />
-          To: {prettyDate(task.endTime)}
+          To: {formatDate(task.endTime)}
         </Typography>
       </CardContent>
       <CardActions>
@@ -64,5 +64,7 @@ export default function TaskInfo() {
         </Button>
       </CardActions>
     </Card>
+  ) : (
+    <h3>No such task</h3>
   );
 }

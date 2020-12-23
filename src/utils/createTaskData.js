@@ -1,12 +1,17 @@
-function createTimestamp() {
-  const hour = Math.floor(Math.random() * 24);
-  const minutes = Math.floor(Math.random() * 60);
-  const seconds = Math.floor(Math.random() * 60);
-  return new Date().setHours(hour, minutes, seconds);
+function createTimestamps() {
+  const timeStamps = [];
+
+  for (let i = 0; i < 2; i++) {
+    const hour = Math.floor(Math.random() * 24);
+    const minutes = Math.floor(Math.random() * 60);
+    const seconds = Math.floor(Math.random() * 60);
+    timeStamps.push(new Date().setHours(hour, minutes, seconds));
+  }
+  return timeStamps.sort((a, b) => a - b);
 }
 
 export function createTaskData() {
-  let taskTitles = [
+  const taskTitles = [
     "learn JavaScript",
     "learn HTML",
     "learn React",
@@ -22,25 +27,14 @@ export function createTaskData() {
   const taskData = [];
 
   for (let title of taskTitles) {
-    const task = {
+    const [startTime, endTime] = createTimestamps();
+
+    taskData.push({
       title,
-    };
-
-    let startTime = createTimestamp();
-    let endTime = createTimestamp();
-
-    if (startTime < endTime) {
-      task.startTime = startTime;
-      task.endTime = endTime;
-      task.timeSpent = endTime - startTime;
-    }
-    if (startTime > endTime) {
-      task.startTime = endTime;
-      task.endTime = startTime;
-      task.timeSpent = startTime - endTime;
-    }
-
-    taskData.push(task);
+      startTime,
+      endTime,
+      timeSpent: endTime - startTime,
+    });
   }
   return taskData;
 }

@@ -1,110 +1,54 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Redirect, Link, useHistory } from "react-router-dom";
 
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import TaskLog from "./TaskLog/TaskLog";
 import TaskChart from "./TaskChart/TaskChart";
-import TaskInfo from "../TaskInfo/TaskInfo";
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box>
-          <Typography component='div'>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 
 export default function TaskTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const {
+    push,
+    location: { pathname },
+  } = useHistory();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const pathToIndex = {
+    "/tasks_log": 0,
+    "/tasks_chart": 1,
+  };
+
+  const indexToPath = {
+    0: "/tasks_log",
+    1: "/tasks_chart",
+  };
+
+  const [selectedTab, setselectedTab] = React.useState(
+    pathname in pathToIndex ? pathToIndex[pathname] : false
+  );
+
+  const handleTabChange = (_, newValue) => {
+    push(indexToPath[newValue]);
+    setselectedTab(newValue);
   };
 
   return (
-    <div className={classes.root}>
-      <Router>
-        <AppBar position='static'>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label='simple tabs example'
-          >
-            <Tab
-              label='TASKS LOG'
-              {...a11yProps(0)}
-              component={Link}
-              to='/tasks_log'
-            />
-            <Tab
-              label='TASKS CHART'
-              {...a11yProps(1)}
-              component={Link}
-              to='/tasks_chart'
-            />
-          </Tabs>
-        </AppBar>
-        <Switch>
-          <Route exact path='/'>
-            <TabPanel value={value} index={0}>
-              <TaskLog />
-            </TabPanel>
-          </Route>
-          <Route path='/tasks_log'>
-            <TabPanel value={value} index={0}>
-              <TaskLog />
-            </TabPanel>
-          </Route>
-          <Route path='/tasks_chart'>
-            <TabPanel value={value} index={1}>
-              <TaskChart />
-            </TabPanel>
-          </Route>
-          <Route path='/tasks/:taskId'>
-            <TaskInfo />
-          </Route>
-          <Route path='*'>No match</Route>
-        </Switch>
-      </Router>
+    <div>
+      <AppBar position='static'>
+        <Tabs
+          value={selectedTab}
+          onChange={handleTabChange}
+          aria-label='task details tabs'
+        >
+          <Tab label='TASKS LOG' component={Link} to='/tasks_log' />
+          <Tab label='TASKS CHART' component={Link} to='/tasks_chart' />
+        </Tabs>
+      </AppBar>
+      <Switch>
+        <Redirect exact from='/' to='/tasks_log' />
+        <Route exact path='/tasks_log' component={TaskLog} />
+        <Route exact path='/tasks_chart' component={TaskChart} />
+      </Switch>
     </div>
   );
 }

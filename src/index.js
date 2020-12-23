@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { createStore, compose, applyMiddleware } from "redux";
 import { rootReducer } from "./store/rootReducer";
@@ -26,8 +27,10 @@ const store = createStore(
 
 const app = (
   <Provider store={store}>
-    <CssBaseline />
-    <App />
+    <Router>
+      <CssBaseline />
+      <App />
+    </Router>
   </Provider>
 );
 

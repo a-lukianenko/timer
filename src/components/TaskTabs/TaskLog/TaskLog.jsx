@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -14,8 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
 import { deleteTask } from "../../../store/actions";
-
-import { prettyDate, prettyDateUTC } from "../../../utils/prettyDate";
+import { formatDate } from "../../../utils/formatDate";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -73,13 +71,13 @@ export default function TaskLog() {
                 </StyledTableCell>
                 <StyledTableCell align='right'>{task.title}</StyledTableCell>
                 <StyledTableCell align='right'>
-                  {prettyDate(task.startTime)}
+                  {formatDate(task.startTime)}
                 </StyledTableCell>
                 <StyledTableCell align='right'>
-                  {prettyDate(task.endTime)}
+                  {formatDate(task.endTime)}
                 </StyledTableCell>
                 <StyledTableCell align='right'>
-                  {prettyDateUTC(task.timeSpent)}
+                  {formatDate(task.timeSpent, true)}
                 </StyledTableCell>
                 <StyledTableCell align='right'>
                   <Button

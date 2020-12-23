@@ -61,7 +61,17 @@ const TaskChart = () => {
       </Button>
     </>
   ) : (
-    <h3>Nothing to plot!</h3>
+    <>
+      <h3>Nothing to plot!</h3>
+      <Button
+        variant='contained'
+        size='small'
+        color='secondary'
+        onClick={() => dispatch(generateTasks())}
+      >
+        Generate tasks
+      </Button>
+    </>
   );
 };
 
