@@ -1,4 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,22 +17,27 @@ const useStyles = makeStyles(theme => ({
 const TaskNameInput = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const currentTask = useSelector(state => state.tasks.currentTask);
+
+  const [taskTitle, setTaskTitle] = useState("");
 
   function handleChange(event) {
-    dispatch(setCurrentTaskName(event.target.value));
+    setTaskTitle(event.target.value);
+  }
+
+  function handleBlur(event) {
+    dispatch(setCurrentTaskName(taskTitle));
+    setTaskTitle("");
   }
 
   return (
-    <form onSubmit={e => e.preventDefault()}>
-      <Input
-        className={classes.root}
-        placeholder='Name of your task'
-        value={currentTask}
-        onChange={handleChange}
-        inputProps={{ "aria-label": "description" }}
-      />
-    </form>
+    <Input
+      className={classes.root}
+      placeholder='Name of your task'
+      value={taskTitle}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      inputProps={{ "aria-label": "description" }}
+    />
   );
 };
 

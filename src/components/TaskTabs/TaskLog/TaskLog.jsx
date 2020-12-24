@@ -53,61 +53,65 @@ export default function TaskLog() {
   return (
     <>
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label='customized table'>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>№</StyledTableCell>
-              <StyledTableCell align='right'>Task</StyledTableCell>
-              <StyledTableCell align='right'>Time start</StyledTableCell>
-              <StyledTableCell align='right'>Time end</StyledTableCell>
-              <StyledTableCell align='right'>Time spent</StyledTableCell>
-              <StyledTableCell align='right'>Info</StyledTableCell>
-              <StyledTableCell align='right'>Delete</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tasks.map((task, i) =>
-              task.title ? (
-                <StyledTableRow key={task.startTime}>
-                  <StyledTableCell component='th' scope='row'>
-                    {i + 1}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>{task.title}</StyledTableCell>
-                  <StyledTableCell align='right'>
-                    {formatDate(task.startTime)}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    {formatDate(task.endTime)}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    {formatDate(task.timeSpent, true)}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      size='small'
-                      component={Link}
-                      to={`/tasks/${task.startTime}`}
-                    >
-                      INFO
-                    </Button>
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      size='small'
-                      onClick={() => handleClick(task.startTime)}
-                    >
-                      DELETE
-                    </Button>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ) : undefined
-            )}
-          </TableBody>
-        </Table>
+        {tasks[tasks.length - 1].title && (
+          <Table className={classes.table} aria-label='customized table'>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>№</StyledTableCell>
+                <StyledTableCell align='right'>Task</StyledTableCell>
+                <StyledTableCell align='right'>Time start</StyledTableCell>
+                <StyledTableCell align='right'>Time end</StyledTableCell>
+                <StyledTableCell align='right'>Time spent</StyledTableCell>
+                <StyledTableCell align='right'>Info</StyledTableCell>
+                <StyledTableCell align='right'>Delete</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tasks.map((task, i) =>
+                task.title ? (
+                  <StyledTableRow key={task.startTime}>
+                    <StyledTableCell component='th' scope='row'>
+                      {i + 1}
+                    </StyledTableCell>
+                    <StyledTableCell align='right'>
+                      {task.title}
+                    </StyledTableCell>
+                    <StyledTableCell align='right'>
+                      {formatDate(task.startTime)}
+                    </StyledTableCell>
+                    <StyledTableCell align='right'>
+                      {formatDate(task.endTime)}
+                    </StyledTableCell>
+                    <StyledTableCell align='right'>
+                      {formatDate(task.timeSpent, true)}
+                    </StyledTableCell>
+                    <StyledTableCell align='right'>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        size='small'
+                        component={Link}
+                        to={`/tasks/${task.startTime}`}
+                      >
+                        INFO
+                      </Button>
+                    </StyledTableCell>
+                    <StyledTableCell align='right'>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        size='small'
+                        onClick={() => handleClick(task.startTime)}
+                      >
+                        DELETE
+                      </Button>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ) : undefined
+              )}
+            </TableBody>
+          </Table>
+        )}
       </TableContainer>
       <Confirmation />
     </>
