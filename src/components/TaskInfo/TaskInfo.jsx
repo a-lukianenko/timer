@@ -11,18 +11,6 @@ import Typography from "@material-ui/core/Typography";
 
 import { formatDate } from "../../utils/formatDate";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
 export default function TaskInfo() {
   const classes = useStyles();
   const { taskId } = useParams();
@@ -31,7 +19,8 @@ export default function TaskInfo() {
     state.tasks.tasks.find(task => task.startTime === +taskId)
   );
 
-  return task ? (
+  if (!task) return <h3>No such task</h3>;
+  return (
     <Card className={classes.root}>
       <CardContent>
         <Typography
@@ -58,13 +47,23 @@ export default function TaskInfo() {
           size='small'
           variant='contained'
           color='secondary'
-          onClick={() => history.push("/tasks_log")}
+          onClick={() => history.push("/tasks")}
         >
           Back to log
         </Button>
       </CardActions>
     </Card>
-  ) : (
-    <h3>No such task</h3>
   );
 }
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+});

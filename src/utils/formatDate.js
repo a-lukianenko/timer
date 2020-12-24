@@ -1,5 +1,5 @@
 export function formatDate(timestamp = null, UTC = false) {
-  if (typeof timestamp === "string") return timestamp;
+  if (!timestamp) return "--:--:--";
 
   let hours, minutes, seconds;
   if (UTC) {

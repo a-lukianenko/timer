@@ -10,13 +10,7 @@ import TaskInfo from "./components/TaskInfo/TaskInfo";
 import StopWatch from "./components/StopWatch/StopWatch";
 import TimerButton from "./components/TimerButton/TimerButton";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
-
-function App() {
+export default function App() {
   const classes = useStyles();
 
   return (
@@ -43,12 +37,8 @@ function App() {
       <Grid style={{ marginTop: "3rem" }}>
         <Switch>
           <Redirect exact from='/' to='/tasks' />
-          <Route exact path='/tasks'>
-            <TaskTabs />
-          </Route>
-          <Route exact path='/tasks-chart'>
-            <TaskTabs />
-          </Route>
+          <Route exact path='/tasks' component={TaskTabs} />
+          <Route exact path='/tasks-chart' component={TaskTabs} />
           <Route exact path='/tasks/:taskId' component={TaskInfo} />
           <Route path='*'>
             <h3> Resource Not Found </h3>
@@ -59,4 +49,8 @@ function App() {
   );
 }
 
-export default App;
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+}));

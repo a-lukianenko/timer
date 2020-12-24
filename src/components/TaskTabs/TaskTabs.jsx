@@ -1,5 +1,5 @@
-import React from "react";
-import { Switch, Route, Redirect, Link, useHistory } from "react-router-dom";
+import { useState } from "react";
+import { Switch, Route, Link, useHistory } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -9,26 +9,16 @@ import TaskChart from "./TaskChart/TaskChart";
 
 export default function TaskTabs() {
   const {
-    push,
     location: { pathname },
   } = useHistory();
 
-  const pathToIndex = {
-    "/tasks": 0,
-    "/tasks-chart": 1,
-  };
+  const paths = ["/tasks", "/tasks-chart"];
 
-  const indexToPath = {
-    0: "/tasks",
-    1: "/tasks-chart",
-  };
-
-  const [selectedTab, setselectedTab] = React.useState(
-    pathname in pathToIndex ? pathToIndex[pathname] : false
+  const [selectedTab, setselectedTab] = useState(
+    paths.indexOf(pathname) > -1 ? paths.indexOf(pathname) : false
   );
 
   const handleTabChange = (_, newValue) => {
-    // push(indexToPath[newValue]);
     setselectedTab(newValue);
   };
 
@@ -45,7 +35,6 @@ export default function TaskTabs() {
         </Tabs>
       </AppBar>
       <Switch>
-        <Redirect exact from='/' to='/tasks' />
         <Route exact path='/tasks' component={TaskLog} />
         <Route exact path='/tasks-chart' component={TaskChart} />
       </Switch>

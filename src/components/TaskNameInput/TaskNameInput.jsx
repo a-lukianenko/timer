@@ -6,15 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { setCurrentTaskName } from "../../store/actions";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    "& input::placeholder": {
-      textAlign: "center",
-    },
-  },
-}));
-
-const TaskNameInput = () => {
+export default function TaskNameInput() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -39,6 +31,12 @@ const TaskNameInput = () => {
       inputProps={{ "aria-label": "description" }}
     />
   );
-};
+}
 
-export default TaskNameInput;
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& input::placeholder": {
+      textAlign: "center",
+    },
+  },
+}));

@@ -10,10 +10,6 @@ import Paper from "@material-ui/core/Paper";
 
 import { hideConfirmation, deleteTask } from "../../store/actions";
 
-function PaperComponent(props) {
-  return <Paper {...props} />;
-}
-
 export default function Confirmation() {
   const dispatch = useDispatch();
   const confirmation = useSelector(state => state.tasks.confirmation);
@@ -54,4 +50,8 @@ export default function Confirmation() {
       </div>
     )
   );
+}
+
+function PaperComponent(props) {
+  return <Paper {...props} />;
 }

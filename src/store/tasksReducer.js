@@ -28,8 +28,8 @@ export default function tasksReducer(state = initialState, action) {
         {
           title: action.task,
           startTime: Date.now(),
-          endTime: "--:--:--",
-          timeSpent: "--:--:--",
+          endTime: null,
+          timeSpent: null,
         },
       ]);
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));
