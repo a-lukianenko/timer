@@ -42,11 +42,11 @@ function App() {
 
       <Grid style={{ marginTop: "3rem" }}>
         <Switch>
-          <Redirect exact from='/' to='/tasks_log' />
-          <Route exact path='/tasks_log'>
+          <Redirect exact from='/' to='/tasks' />
+          <Route exact path='/tasks'>
             <TaskTabs />
           </Route>
-          <Route exact path='/tasks_chart'>
+          <Route exact path='/tasks-chart'>
             <TaskTabs />
           </Route>
           <Route exact path='/tasks/:taskId' component={TaskInfo} />

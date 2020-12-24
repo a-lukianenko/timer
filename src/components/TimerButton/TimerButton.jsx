@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
-import ModalWarning from "../Modal/ModalWarning";
+import Warning from "../Modal/Warning";
 
 import {
   startTimer,
@@ -45,7 +45,7 @@ const TimerButton = () => {
       <Button variant='contained' color='primary' onClick={handleClick}>
         {buttonText}
       </Button>
-      <ModalWarning />
+      <Warning />
     </>
   );
 };

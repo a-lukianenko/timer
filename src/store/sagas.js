@@ -16,7 +16,7 @@
 // }
 
 // function* saga() {
-//   yield takeEvery("START_TIMER", timerWorker);
+//   yield takeEvery("TIMER_TICK", timerWorker);
 // }
 
 // export default saga;

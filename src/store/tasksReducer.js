@@ -1,7 +1,9 @@
 const initialState = {
   currentTask: "",
+  taskToDelete: null,
   tasks: JSON.parse(localStorage.getItem("tasks")) || [],
   warning: false,
+  confirmation: false,
   timer: localStorage.getItem("runningTask")
     ? new Date(
         Date.now() -
@@ -12,7 +14,7 @@ const initialState = {
 
 export default function tasksReducer(state = initialState, action) {
   switch (action.type) {
-    case "START_TIMER":
+    case "TIMER_TICK":
       return {
         ...state,
         timer: new Date(new Date(state.timer).getTime() + 1000),
@@ -55,7 +57,7 @@ export default function tasksReducer(state = initialState, action) {
       };
     case "DELETE_TASK":
       const filteredTasks = state.tasks.filter(
-        task => task.startTime !== action.taskId
+        task => task.startTime !== state.taskToDelete.startTime
       );
       localStorage.setItem("tasks", JSON.stringify(filteredTasks));
       return {
@@ -70,6 +72,16 @@ export default function tasksReducer(state = initialState, action) {
       return { ...state, warning: true };
     case "HIDE_WARNING":
       return { ...state, warning: false };
+    case "SHOW_CONFIRMATION":
+      return {
+        ...state,
+        confirmation: true,
+        taskToDelete: state.tasks.find(
+          task => task.startTime === action.taskId
+        ),
+      };
+    case "HIDE_CONFIRMATION":
+      return { ...state, confirmation: false };
     default:
       return state;
   }

@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-import { hideWarning } from "../../store/actions";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,7 +7,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function ModalWarning() {
+import { hideWarning } from "../../store/actions";
+
+export default function Warning() {
   const warning = useSelector(state => state.tasks.warning);
   const dispatch = useDispatch();
 

@@ -14,13 +14,13 @@ export default function TaskTabs() {
   } = useHistory();
 
   const pathToIndex = {
-    "/tasks_log": 0,
-    "/tasks_chart": 1,
+    "/tasks": 0,
+    "/tasks-chart": 1,
   };
 
   const indexToPath = {
-    0: "/tasks_log",
-    1: "/tasks_chart",
+    0: "/tasks",
+    1: "/tasks-chart",
   };
 
   const [selectedTab, setselectedTab] = React.useState(
@@ -28,7 +28,7 @@ export default function TaskTabs() {
   );
 
   const handleTabChange = (_, newValue) => {
-    push(indexToPath[newValue]);
+    // push(indexToPath[newValue]);
     setselectedTab(newValue);
   };
 
@@ -40,14 +40,14 @@ export default function TaskTabs() {
           onChange={handleTabChange}
           aria-label='task details tabs'
         >
-          <Tab label='TASKS LOG' component={Link} to='/tasks_log' />
-          <Tab label='TASKS CHART' component={Link} to='/tasks_chart' />
+          <Tab label='TASKS LOG' component={Link} to='/tasks' />
+          <Tab label='TASKS CHART' component={Link} to='/tasks-chart' />
         </Tabs>
       </AppBar>
       <Switch>
-        <Redirect exact from='/' to='/tasks_log' />
-        <Route exact path='/tasks_log' component={TaskLog} />
-        <Route exact path='/tasks_chart' component={TaskChart} />
+        <Redirect exact from='/' to='/tasks' />
+        <Route exact path='/tasks' component={TaskLog} />
+        <Route exact path='/tasks-chart' component={TaskChart} />
       </Switch>
     </div>
   );

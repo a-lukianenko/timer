@@ -6,16 +6,15 @@ export function startTimer() {
       localStorage.setItem("runningTask", "true");
     dispatch(setButtonTextStop());
     interval = setInterval(() => {
-      dispatch({ type: "START_TIMER" });
+      dispatch({ type: "TIMER_TICK" });
     }, 1000);
   };
 }
 
-export function resetTimer(title) {
+export function resetTimer() {
   return dispatch => {
     if (!interval) return;
     clearInterval(interval);
-    // dispatch(setTaskEndTime(Date.now(), title));
     dispatch(setCurrentTaskName(""));
     dispatch(setButtonTextStart());
     dispatch({ type: "RESET_TIMER" });
@@ -67,18 +66,28 @@ export function hideWarning() {
   };
 }
 
-export function deleteTask(task) {
-  return dispatch => {
-    if (!interval)
-      return dispatch({ type: "DELETE_TASK", taskId: task.startTime });
+export function showConfirmation(taskId) {
+  return {
+    type: "SHOW_CONFIRMATION",
+    taskId,
+  };
+}
 
-    if (interval) {
-      clearInterval(interval);
-      dispatch(setButtonTextStart());
-      dispatch({ type: "RESET_TIMER" });
-      dispatch({ type: "DELETE_TASK", taskId: task.startTime });
-      localStorage.setItem("runningTask", "");
-    }
+export function hideConfirmation() {
+  return {
+    type: "HIDE_CONFIRMATION",
+  };
+}
+
+export function deleteTask() {
+  return dispatch => {
+    if (!interval) return dispatch({ type: "DELETE_TASK" });
+
+    clearInterval(interval);
+    dispatch(setButtonTextStart());
+    dispatch({ type: "RESET_TIMER" });
+    dispatch({ type: "DELETE_TASK" });
+    localStorage.setItem("runningTask", "");
   };
 }
 
