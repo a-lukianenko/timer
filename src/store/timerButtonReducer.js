@@ -1,13 +1,13 @@
 const initialState = {
-  buttonText: "START",
+  isTimerActive: false,
 };
 
 export default function timerButtonReducer(state = initialState, action) {
   switch (action.type) {
-    case "SET_TO_STOP":
-      return { buttonText: "STOP" };
-    case "SET_TO_START":
-      return { buttonText: "START" };
+    case "ACTIVATE_BUTTON":
+      return { isTimerActive: true };
+    case "DEACTIVATE_BUTTON":
+      return { isTimerActive: false };
     default:
       return state;
   }

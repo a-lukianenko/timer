@@ -14,7 +14,7 @@ import {
 
 const TimerButton = () => {
   const dispatch = useDispatch();
-  const buttonText = useSelector(state => state.timerButton.buttonText);
+  const isTimerActive = useSelector(state => state.timerButton.isTimerActive);
   const currentTask = useSelector(state => state.tasks.currentTask);
   const taskTitle = useSelector(state =>
     state.tasks.tasks.length ? state.tasks.tasks.slice(-1)[0].title : null
@@ -26,11 +26,11 @@ const TimerButton = () => {
   }, [dispatch]);
 
   function handleClick() {
-    if (buttonText === "START") {
+    if (!isTimerActive) {
       dispatch(startTimer());
       dispatch(addTask(currentTask));
     }
-    if (buttonText === "STOP") {
+    if (isTimerActive) {
       if (!taskTitle && !currentTask) return dispatch(showWarning());
 
       dispatch(setCurrentTaskName(""));
@@ -43,7 +43,7 @@ const TimerButton = () => {
   return (
     <>
       <Button variant='contained' color='primary' onClick={handleClick}>
-        {buttonText}
+        {isTimerActive ? "STOP" : "START"}
       </Button>
       <Warning />
     </>

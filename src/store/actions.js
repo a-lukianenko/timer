@@ -29,13 +29,13 @@ export function addTask(task) {
 
 export function setButtonTextStop() {
   return {
-    type: "SET_TO_STOP",
+    type: "ACTIVATE_BUTTON",
   };
 }
 
 export function setButtonTextStart() {
   return {
-    type: "SET_TO_START",
+    type: "DEACTIVATE_BUTTON",
   };
 }
 
