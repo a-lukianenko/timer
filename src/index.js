@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { createStore, compose, applyMiddleware } from "redux";
-import { rootReducer } from "./store/rootReducer";
+import { root } from "./store/root";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 
@@ -17,7 +17,7 @@ import App from "./App";
 // const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
-  rootReducer,
+  root,
   compose(
     applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

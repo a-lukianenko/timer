@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 
 import { useSelector, useDispatch } from "react-redux";
 import { taskToTimeData } from "../../../utils/taskToTimeData";
-import { generateTasks } from "../../../store/actions";
+import { generateTasks } from "../../../store/tasks";
 
 const TaskChart = () => {
   const task = useSelector(

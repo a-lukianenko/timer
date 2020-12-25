@@ -12,7 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-import { showConfirmation } from "../../../store/actions";
+import { showConfirmation } from "../../../store/tasks";
 import { formatDate } from "../../../utils/formatDate";
 import Confirmation from "../../Modal/Confirmation";
 

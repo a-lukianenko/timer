@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 
 export default function StopWatch() {
   const classes = useStyles();
-  const timer = useSelector(state => state.tasks.timer);
+  const timer = useSelector(state => state.timer.timer);
 
   return (
     <Paper className={classes.root} elevation={3}>

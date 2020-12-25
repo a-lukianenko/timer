@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { setCurrentTaskName } from "../../store/actions";
+import { setСurrentTaskName } from "../../store/tasks";
 
 export default function TaskNameInput() {
   const classes = useStyles();
@@ -17,7 +17,7 @@ export default function TaskNameInput() {
   }
 
   function handleBlur(event) {
-    dispatch(setCurrentTaskName(taskTitle));
+    dispatch(setСurrentTaskName(taskTitle));
     setTaskTitle("");
   }
 

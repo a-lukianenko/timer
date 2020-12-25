@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import { hideWarning } from "../../store/actions";
+import { hideWarning } from "../../store/tasks";
 
 export default function Warning() {
   const warning = useSelector(state => state.tasks.warning);

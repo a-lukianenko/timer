@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Warning from "../Modal/Warning";
 
+import { startTimer, resetTimer } from "../../store/timer";
+
 import {
-  startTimer,
-  resetTimer,
-  setCurrentTaskName,
+  setСurrentTaskName,
   setTaskEndTime,
   showWarning,
   addTask,
-} from "../../store/actions";
+} from "../../store/tasks";
 
 const TimerButton = () => {
   const dispatch = useDispatch();
-  const isTimerActive = useSelector(state => state.timerButton.isTimerActive);
-  const currentTask = useSelector(state => state.tasks.currentTask);
+  const isTimerActive = useSelector(state => state.timer.isTimerActive);
+  const currentTaskName = useSelector(state => state.tasks.currentTaskName);
   const taskTitle = useSelector(state =>
     state.tasks.tasks.length ? state.tasks.tasks.slice(-1)[0].title : null
   );
@@ -28,13 +28,13 @@ const TimerButton = () => {
   function handleClick() {
     if (!isTimerActive) {
       dispatch(startTimer());
-      dispatch(addTask(currentTask));
+      dispatch(addTask(currentTaskName));
     }
     if (isTimerActive) {
-      if (!taskTitle && !currentTask) return dispatch(showWarning());
+      if (!taskTitle && !currentTaskName) return dispatch(showWarning());
 
-      dispatch(setCurrentTaskName(""));
-      dispatch(setTaskEndTime(Date.now(), currentTask));
+      dispatch(setСurrentTaskName(""));
+      dispatch(setTaskEndTime(Date.now(), currentTaskName));
       dispatch(resetTimer());
       localStorage.setItem("runningTask", "");
     }

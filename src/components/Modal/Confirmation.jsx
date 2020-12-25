@@ -8,7 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Paper from "@material-ui/core/Paper";
 
-import { hideConfirmation, deleteTask } from "../../store/actions";
+import { hideConfirmation, deleteTask } from "../../store/tasks";
 
 export default function Confirmation() {
   const dispatch = useDispatch();
