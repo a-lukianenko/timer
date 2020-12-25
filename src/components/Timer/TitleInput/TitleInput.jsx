@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { setСurrentTaskName } from "../../store/tasks";
+import { setСurrentTaskName } from "../../../store/tasks";
 
 export default function TaskNameInput() {
   const classes = useStyles();

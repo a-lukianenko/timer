@@ -141,7 +141,7 @@ export function hideConfirmation() {
 
 export function deleteTask() {
   return dispatch => {
-    if (!interval) return { type: DELETE_TASK };
+    if (!interval) return dispatch({ type: DELETE_TASK });
 
     clearInterval(interval);
     dispatch(deactivateTimer());

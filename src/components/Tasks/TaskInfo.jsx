@@ -47,6 +47,7 @@ export default function TaskInfo() {
           size='small'
           variant='contained'
           color='secondary'
+          style={{ margin: "0 auto" }}
           onClick={() => history.push("/tasks")}
         >
           Back to log
@@ -56,9 +57,13 @@ export default function TaskInfo() {
   );
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    minWidth: 275,
+    maxWidth: 275,
+    marginTop: theme.spacing(3),
+    marginLeft: "auto",
+    marginRight: "auto",
+    padding: theme.spacing(2),
   },
   title: {
     fontSize: 14,
@@ -66,4 +71,4 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-});
+}));

@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
-import Warning from "../Modal/Warning";
+import Warning from "../../Modal/Warning";
 
-import { startTimer, resetTimer } from "../../store/timer";
+import { startTimer, resetTimer } from "../../../store/timer";
 
 import {
   setСurrentTaskName,
   setTaskEndTime,
   showWarning,
   addTask,
-} from "../../store/tasks";
+} from "../../../store/tasks";
 
 const TimerButton = () => {
   const dispatch = useDispatch();
