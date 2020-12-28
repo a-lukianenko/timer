@@ -8,22 +8,22 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 
 // Saga imports
-// import createSagaMiddleware from "redux-saga";
-// import saga from "./store/sagas";
+import createSagaMiddleware from "redux-saga";
+import watchLocalStorage from "./store/sagas";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./App";
 
-// const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   root,
   compose(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, sagaMiddleware),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
-// sagaMiddleware.run(saga);
+sagaMiddleware.run(watchLocalStorage);
 
 const app = (
   <Provider store={store}>

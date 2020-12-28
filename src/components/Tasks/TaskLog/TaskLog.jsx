@@ -25,7 +25,7 @@ export default function TaskLog() {
     dispatch(showConfirmation(taskId));
   }
 
-  if (!tasks.length) return <h3>No tasks yet!</h3>;
+  if (!tasks.length) return <h3 className={classes.h3}>No tasks yet!</h3>;
   return (
     <>
       <TableContainer component={Paper}>
@@ -42,46 +42,44 @@ export default function TaskLog() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.map((task, i) =>
-              task.title ? (
-                <StyledTableRow key={task.startTime}>
-                  <StyledTableCell component='th' scope='row'>
-                    {i + 1}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>{task.title}</StyledTableCell>
-                  <StyledTableCell align='right'>
-                    {formatDate(task.startTime)}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    {formatDate(task.endTime)}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    {formatDate(task.timeSpent, true)}
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      size='small'
-                      component={Link}
-                      to={`/tasks/${task.startTime}`}
-                    >
-                      INFO
-                    </Button>
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      size='small'
-                      onClick={() => handleClick(task.startTime)}
-                    >
-                      DELETE
-                    </Button>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ) : undefined
-            )}
+            {tasks.map((task, i) => (
+              <StyledTableRow key={task.startTime}>
+                <StyledTableCell component='th' scope='row'>
+                  {i + 1}
+                </StyledTableCell>
+                <StyledTableCell align='right'>{task.title}</StyledTableCell>
+                <StyledTableCell align='right'>
+                  {formatDate(task.startTime)}
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  {formatDate(task.endTime)}
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  {formatDate(task.timeSpent, true)}
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    size='small'
+                    component={Link}
+                    to={`/tasks/${task.startTime}`}
+                  >
+                    INFO
+                  </Button>
+                </StyledTableCell>
+                <StyledTableCell align='right'>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    size='small'
+                    onClick={() => handleClick(task.startTime)}
+                  >
+                    DELETE
+                  </Button>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -108,8 +106,12 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 700,
   },
-});
+  h3: {
+    marginTop: theme.spacing(4),
+    textAlign: "center",
+  },
+}));

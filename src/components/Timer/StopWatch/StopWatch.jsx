@@ -10,7 +10,9 @@ export default function StopWatch() {
 
   return (
     <Paper className={classes.root} elevation={3}>
-      <span>{timer.toUTCString().slice(-12, -4)}</span>
+      <span className={classes.timer}>
+        {timer.toUTCString().slice(-12, -4)}
+      </span>
     </Paper>
   );
 }
@@ -23,7 +25,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     borderRadius: "50%",
     margin: theme.spacing(3),
-    width: theme.spacing(16),
-    height: theme.spacing(16),
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+  },
+  timer: {
+    fontSize: theme.spacing(4),
+    color: "#374bc7",
   },
 }));

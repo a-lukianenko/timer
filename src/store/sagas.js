@@ -1,22 +1,16 @@
-// import { call, put, takeEvery } from "redux-saga/effects";
+import { select, call, put, takeEvery } from "redux-saga/effects";
+import { ACTIVATE_TIMER, DEACTIVATE_TIMER, TIMER_TICK } from "./timer";
+import * as selectors from "./selectors";
 
-// let interval;
+function* updateLocalStorage() {
+  const startTime = yield select(selectors.startTime);
+  const tasks = yield select(selectors.tasks);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("startTime", startTime);
+}
 
-// function* startTimerWorker({ timer }) {
-//   let newTimer = yield timer;
-//   interval = setInterval(() => {
-//     newTimer += 1000;
-//   }, 1000);
-// }
-// const delay = ms => new Promise(res => setTimeout(res, ms));
+function* watchLocalStorage() {
+  yield takeEvery(DEACTIVATE_TIMER, updateLocalStorage);
+}
 
-// function* timerWorker({ timer }) {
-//   yield delay(1000);
-//   yield put({ type: "INCREMENT_TIMER" });
-// }
-
-// function* saga() {
-//   yield takeEvery("TIMER_TICK", timerWorker);
-// }
-
-// export default saga;
+export default watchLocalStorage;

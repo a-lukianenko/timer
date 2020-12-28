@@ -5,7 +5,6 @@ import { deactivateTimer, resetTimer, interval } from "./timer";
 // Actions
 const SET_CURRENT_TASK_NAME = "app/tasks/SET_CURRENT_TASK_NAME";
 const ADD_TASK = "app/tasks/ADD_TASK";
-const SET_TASK_END_TIME = "app/tasks/SET_TASK_END_TIME";
 const DELETE_TASK = "app/tasks/DELETE_TASK";
 const GENERATE_TASKS = "app/tasks/GENERATE_TASKS";
 const SHOW_WARNING = "app/tasks/SHOW_WARNING";
@@ -28,36 +27,16 @@ export default function tasks(state = initialState, action) {
     case SET_CURRENT_TASK_NAME:
       return { ...state, currentTaskName: action.name };
     case ADD_TASK:
-      const updatedTasks = state.tasks.concat([
-        {
-          title: action.task,
-          startTime: Date.now(),
-          endTime: null,
-          timeSpent: null,
-        },
-      ]);
-      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      const newTask = {
+        title: action.task,
+        startTime: action.startTime,
+        endTime: Date.now(),
+      };
+      newTask.timeSpent = newTask.endTime - newTask.startTime;
       return {
         ...state,
         currentTaskName: "",
-        tasks: updatedTasks,
-      };
-    case SET_TASK_END_TIME:
-      const completedTasks = state.tasks
-        .slice(0, state.tasks.length - 1)
-        .concat([
-          {
-            ...state.tasks.slice(-1)[0],
-            endTime: action.timestamp,
-            title: action.title ? action.title : state.tasks.slice(-1)[0].title,
-            timeSpent:
-              action.timestamp - state.tasks[state.tasks.length - 1].startTime,
-          },
-        ]);
-      localStorage.setItem("tasks", JSON.stringify(completedTasks));
-      return {
-        ...state,
-        tasks: completedTasks,
+        tasks: state.tasks.concat([newTask]),
       };
     case DELETE_TASK:
       const filteredTasks = state.tasks.filter(
@@ -68,10 +47,6 @@ export default function tasks(state = initialState, action) {
         ...state,
         tasks: filteredTasks,
       };
-    case GENERATE_TASKS:
-      localStorage.setItem("runningTask", "");
-      localStorage.setItem("tasks", JSON.stringify(action.taskData));
-      return { ...state, tasks: action.taskData };
     case SHOW_WARNING:
       return { ...state, warning: true };
     case HIDE_WARNING:
@@ -86,16 +61,21 @@ export default function tasks(state = initialState, action) {
       };
     case HIDE_CONFIRMATION:
       return { ...state, confirmation: false };
+    case GENERATE_TASKS:
+      localStorage.setItem("runningTask", "");
+      localStorage.setItem("tasks", JSON.stringify(action.taskData));
+      return { ...state, tasks: action.taskData };
     default:
       return state;
   }
 }
 
 // Action creators
-export function addTask(task) {
+export function addTask(task, startTime) {
   return {
     type: ADD_TASK,
     task,
+    startTime,
   };
 }
 
@@ -103,14 +83,6 @@ export function setСurrentTaskName(name) {
   return {
     type: SET_CURRENT_TASK_NAME,
     name,
-  };
-}
-
-export function setTaskEndTime(timestamp, title) {
-  return {
-    type: SET_TASK_END_TIME,
-    timestamp,
-    title,
   };
 }
 
@@ -140,14 +112,8 @@ export function hideConfirmation() {
 }
 
 export function deleteTask() {
-  return dispatch => {
-    if (!interval) return dispatch({ type: DELETE_TASK });
-
-    clearInterval(interval);
-    dispatch(deactivateTimer());
-    dispatch(resetTimer());
-    dispatch({ type: DELETE_TASK });
-    localStorage.setItem("runningTask", "");
+  return {
+    type: DELETE_TASK,
   };
 }
 
