@@ -1,5 +1,3 @@
-// timer.js
-
 // Actions
 export const ACTIVATE_TIMER = "app/timer/ACTIVATE_TIMER";
 export const DEACTIVATE_TIMER = "app/timer/DEACTIVATE_TIMER";
@@ -7,14 +5,12 @@ export const TIMER_TICK = "app/timer/TIMER_TICK";
 
 // Initial state
 const initialState = {
-  startTime: null,
-  timer: localStorage.getItem("runningTask")
-    ? new Date(
-        Date.now() -
-          JSON.parse(localStorage.getItem("tasks")).slice(-1)[0].startTime
-      )
-    : new Date(0),
+  startTime: +localStorage.getItem("startTime") || null,
 };
+
+initialState.timer = initialState.startTime
+  ? new Date(Date.now() - initialState.startTime)
+  : new Date(0);
 
 // Reducer
 export default function timer(state = initialState, action) {
@@ -50,18 +46,13 @@ export function timerTick() {
   };
 }
 
-export let interval;
 export function startTimer() {
-  return dispatch => {
-    dispatch(activateTimer());
-    interval = setInterval(() => {
-      dispatch(timerTick());
-    }, 1000);
+  return {
+    type: ACTIVATE_TIMER,
   };
 }
 
 export function deactivateTimer() {
-  clearInterval(interval);
   return {
     type: DEACTIVATE_TIMER,
   };

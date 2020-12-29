@@ -1,11 +1,9 @@
-// tasks.js
 import { createTaskData } from "../utils/createTaskData";
-import { deactivateTimer, resetTimer, interval } from "./timer";
 
 // Actions
 const SET_CURRENT_TASK_NAME = "app/tasks/SET_CURRENT_TASK_NAME";
 const ADD_TASK = "app/tasks/ADD_TASK";
-const DELETE_TASK = "app/tasks/DELETE_TASK";
+export const DELETE_TASK = "app/tasks/DELETE_TASK";
 const GENERATE_TASKS = "app/tasks/GENERATE_TASKS";
 const SHOW_WARNING = "app/tasks/SHOW_WARNING";
 const HIDE_WARNING = "app/tasks/HIDE_WARNING";
@@ -39,13 +37,11 @@ export default function tasks(state = initialState, action) {
         tasks: state.tasks.concat([newTask]),
       };
     case DELETE_TASK:
-      const filteredTasks = state.tasks.filter(
-        task => task.startTime !== state.taskToDelete.startTime
-      );
-      localStorage.setItem("tasks", JSON.stringify(filteredTasks));
       return {
         ...state,
-        tasks: filteredTasks,
+        tasks: state.tasks.filter(
+          task => task.startTime !== state.taskToDelete.startTime
+        ),
       };
     case SHOW_WARNING:
       return { ...state, warning: true };
@@ -62,8 +58,6 @@ export default function tasks(state = initialState, action) {
     case HIDE_CONFIRMATION:
       return { ...state, confirmation: false };
     case GENERATE_TASKS:
-      localStorage.setItem("runningTask", "");
-      localStorage.setItem("tasks", JSON.stringify(action.taskData));
       return { ...state, tasks: action.taskData };
     default:
       return state;

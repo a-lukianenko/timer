@@ -9,7 +9,7 @@ import thunk from "redux-thunk";
 
 // Saga imports
 import createSagaMiddleware from "redux-saga";
-import watchLocalStorage from "./store/sagas";
+import rootSaga from "./store/sagas";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./App";
@@ -23,7 +23,7 @@ const store = createStore(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
-sagaMiddleware.run(watchLocalStorage);
+sagaMiddleware.run(rootSaga);
 
 const app = (
   <Provider store={store}>

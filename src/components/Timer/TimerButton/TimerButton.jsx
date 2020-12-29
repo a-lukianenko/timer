@@ -13,13 +13,8 @@ const TimerButton = () => {
   const currentTaskName = useSelector(state => state.tasks.currentTaskName);
 
   useEffect(() => {
-    // dispatch({ type: "UPDATE_LOCAL_STORAGE" });
-    // alert("Yo");
-    return () => {
-      // localStorage.setItem("num", 1);
-      alert("unmiunt");
-    };
-  });
+    JSON.parse(localStorage.getItem("startTime")) && dispatch(startTimer());
+  }, [dispatch]);
 
   function handleClick() {
     if (!startTime) {
