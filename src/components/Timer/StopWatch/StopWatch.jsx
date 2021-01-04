@@ -25,11 +25,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     borderRadius: "50%",
     margin: theme.spacing(3),
-    width: theme.spacing(20),
-    height: theme.spacing(20),
+    width: theme.spacing(21),
+    height: theme.spacing(21),
   },
   timer: {
     fontSize: theme.spacing(4),
-    color: "#374bc7",
+    color: theme.palette.primary.main,
   },
 }));

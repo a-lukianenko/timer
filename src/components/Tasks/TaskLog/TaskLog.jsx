@@ -60,7 +60,6 @@ export default function TaskLog() {
                 <StyledTableCell align='right'>
                   <Button
                     variant='contained'
-                    color='primary'
                     size='small'
                     component={Link}
                     to={`/tasks/${task.startTime}`}
@@ -71,7 +70,6 @@ export default function TaskLog() {
                 <StyledTableCell align='right'>
                   <Button
                     variant='contained'
-                    color='primary'
                     size='small'
                     onClick={() => handleClick(task.startTime)}
                   >
@@ -90,11 +88,15 @@ export default function TaskLog() {
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.grey[600],
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
   },
   body: {
     fontSize: 14,
+    color: theme.palette.primary.main,
+    backgroundColor: "#eaf6ff",
   },
 }))(TableCell);
 

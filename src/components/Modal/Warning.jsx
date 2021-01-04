@@ -6,10 +6,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { hideWarning } from "../../store/tasks";
 
 export default function Warning() {
+  const classes = useStyles();
   const warning = useSelector(state => state.tasks.warning);
   const dispatch = useDispatch();
 
@@ -25,7 +27,9 @@ export default function Warning() {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{"Empty task name"}</DialogTitle>
+        <DialogTitle id='alert-dialog-title' style={{ color: "#c02f5f" }}>
+          {"Empty task name"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
             You are trying to close a task without title. Please, enter the task
@@ -33,7 +37,7 @@ export default function Warning() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary' autoFocus>
+          <Button onClick={handleClose} className={classes.root} autoFocus>
             CLOSE
           </Button>
         </DialogActions>
@@ -41,3 +45,9 @@ export default function Warning() {
     </div>
   );
 }
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    color: "#2fc8dc",
+  },
+}));

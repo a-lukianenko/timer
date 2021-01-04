@@ -1,4 +1,4 @@
-import { createTaskData } from "../utils/createTaskData";
+import { exampleData } from "../utils/exampleData";
 
 // Actions
 const SET_CURRENT_TASK_NAME = "app/tasks/SET_CURRENT_TASK_NAME";
@@ -58,7 +58,7 @@ export default function tasks(state = initialState, action) {
     case HIDE_CONFIRMATION:
       return { ...state, confirmation: false };
     case GENERATE_TASKS:
-      return { ...state, tasks: action.taskData };
+      return { ...state, tasks: action.exampleData };
     default:
       return state;
   }
@@ -112,9 +112,8 @@ export function deleteTask() {
 }
 
 export function generateTasks() {
-  const taskData = createTaskData();
   return {
     type: GENERATE_TASKS,
-    taskData,
+    exampleData,
   };
 }

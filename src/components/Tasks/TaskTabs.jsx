@@ -28,7 +28,7 @@ export default function TaskTabs() {
 
   return (
     <Grid className={classes.tabs}>
-      <AppBar position='static'>
+      <AppBar position='static' className={classes.appBar}>
         <Tabs
           value={selectedTab}
           onChange={handleTabChange}
@@ -50,5 +50,8 @@ export default function TaskTabs() {
 const useStyles = makeStyles(theme => ({
   tabs: {
     marginBottom: theme.spacing(6),
+  },
+  appBar: {
+    backgroundColor: "#01bcd5",
   },
 }));

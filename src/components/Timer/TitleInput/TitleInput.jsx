@@ -37,6 +37,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     "& input::placeholder": {
       textAlign: "center",
+      color: theme.palette.primary.main,
+      opacity: 1,
+      fontSize: 16,
+      fontWeight: theme.typography.fontWeightRegular,
     },
   },
 }));

@@ -14,69 +14,82 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useSelector, useDispatch } from "react-redux";
 import { taskToTimeData } from "../../../utils/taskToTimeData";
+import getUpperTimeBound from "../../../utils/getUpperTimeBound";
 import { generateTasks } from "../../../store/tasks";
 
-const TaskChart = () => {
+function TaskChart() {
   const classes = useStyles();
-  const task = useSelector(
-    state => state.tasks.tasks[state.tasks.tasks.length - 1]
-  );
   const dispatch = useDispatch();
-  const isRunning = localStorage.getItem("runningTask");
+  const tasks = useSelector(state => state.tasks.tasks);
+  const data = tasks.map(taskToTimeData);
 
-  return task && !isRunning ? (
+  const bars = [];
+
+  for (let i = 0; i <= getUpperTimeBound(data); i++) {
+    bars.push(
+      <Bar
+        barSize={20}
+        dataKey={i.toString()}
+        type='monotone'
+        key={i.toString()}
+      />
+    );
+  }
+
+  if (!tasks.length)
+    return (
+      <>
+        <h3 className={classes.h3}>No tasks yet!</h3>
+        <Button
+          variant='contained'
+          size='small'
+          color='primary'
+          onClick={() => dispatch(generateTasks())}
+          className={classes.btnCentered}
+        >
+          Generate tasks
+        </Button>
+      </>
+    );
+
+  return (
     <>
-      <BarChart
-        width={800}
-        height={300}
-        margin={{ top: 20 }}
-        data={taskToTimeData(task)}
-      >
+      <BarChart width={800} height={250} data={data}>
+        <CartesianGrid strokeDasharray='3 3' />
         <XAxis
-          dataKey='hour'
-          type='number'
-          domain={[0, 23]}
-          tickCount={24}
+          dataKey='title'
+          type='category'
           padding={{ left: 20, right: 20 }}
         />
-        <YAxis dataKey='minutes' type='number' domain={[0, 60]} />
-        <CartesianGrid stroke='#ccc' />
-        <Tooltip labelFormatter={label => `${label}. hour`} />
+        <YAxis />
+        <Tooltip
+          formatter={(value, name, props) => [
+            `${value} minutes`,
+            `in ${name < 9 ? "0" + name : name} hour`,
+          ]}
+        />
         <Legend
           payload={[
             {
-              value: "Minutes in these hours",
-              type: "square",
-              color: "#8884d8",
+              value: "Tasks by hours and minutes",
+              color: "transparent",
             },
           ]}
         />
-        <Bar barSize={20} type='monotone' dataKey='minutes' fill='#8884d8' />
+        {bars}
       </BarChart>
       <Button
         variant='contained'
         size='small'
-        color='secondary'
+        color='primary'
         onClick={() => dispatch(generateTasks())}
-      >
-        Generate tasks
-      </Button>
-    </>
-  ) : (
-    <>
-      <h3 className={classes.h3}>No tasks yet!</h3>
-      <Button
-        variant='contained'
-        size='small'
-        color='secondary'
-        onClick={() => dispatch(generateTasks())}
-        className={classes.btn}
+        className={classes.btnRight}
       >
         Generate tasks
       </Button>
     </>
   );
-};
+}
 
 export default TaskChart;
 
@@ -85,8 +98,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4),
     textAlign: "center",
   },
-  btn: {
+  btnCentered: {
     left: "50%",
     transform: "translateX(-50%)",
+  },
+  btnRight: {
+    left: "100%",
+    transform: "translateX(-100%)",
   },
 }));

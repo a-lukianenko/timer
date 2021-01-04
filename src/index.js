@@ -12,6 +12,9 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./store/sagas";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { theme } from "./theme";
+
 import App from "./App";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -28,8 +31,10 @@ sagaMiddleware.run(rootSaga);
 const app = (
   <Provider store={store}>
     <Router>
-      <CssBaseline />
-      <App />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
     </Router>
   </Provider>
 );

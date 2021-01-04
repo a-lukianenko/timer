@@ -6,17 +6,19 @@ export const TIMER_TICK = "app/timer/TIMER_TICK";
 // Initial state
 const initialState = {
   startTime: +localStorage.getItem("startTime") || null,
+  timer: +localStorage.getItem("startTime")
+    ? new Date(Date.now() - +localStorage.getItem("startTime"))
+    : new Date(0),
 };
-
-initialState.timer = initialState.startTime
-  ? new Date(Date.now() - initialState.startTime)
-  : new Date(0);
 
 // Reducer
 export default function timer(state = initialState, action) {
   switch (action.type) {
     case ACTIVATE_TIMER:
-      return { ...state, startTime: Date.now() };
+      return {
+        ...state,
+        startTime: state.startTime || Date.now(),
+      };
     case DEACTIVATE_TIMER:
       return {
         ...state,

@@ -1,5 +1,6 @@
+import getRandomColor from "./getRandomColor";
 export function taskToTimeData(task) {
-  const { startTime, endTime } = task;
+  const { title, startTime, endTime } = task;
 
   const startHour = new Date(startTime).getHours();
   const startMinute = new Date(startTime).getMinutes();
@@ -8,20 +9,22 @@ export function taskToTimeData(task) {
   const endMinute = new Date(endTime).getMinutes();
 
   if (startHour === endHour)
-    return [{ hour: startHour, minutes: endMinute - startMinute }];
+    return {
+      title,
+      fill: getRandomColor(),
+      [startHour]: endMinute - startMinute,
+    };
 
-  const data = [
-    {
-      hour: startHour,
-      minutes: 60 - startMinute,
-    },
-  ];
+  const data = {
+    title,
+    fill: getRandomColor(),
+    [startHour]: 60 - startMinute,
+    [endHour]: endMinute,
+  };
 
   for (let i = startHour + 1; i < endHour; i++) {
-    data.push({
-      hour: i,
-      minutes: 60,
-    });
+    data[i] = 60;
   }
-  return data.concat([{ hour: endHour, minutes: endMinute }]);
+
+  return data;
 }

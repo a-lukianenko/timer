@@ -46,7 +46,7 @@ export default function TaskInfo() {
         <Button
           size='small'
           variant='contained'
-          color='secondary'
+          color='primary'
           style={{ margin: "0 auto" }}
           onClick={() => history.push("/tasks")}
         >
