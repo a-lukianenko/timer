@@ -1,12 +1,8 @@
-import React from "react";
-import { useSelector } from "react-redux";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 
-export default function StopWatch() {
+export default function StopWatch({ timer }) {
   const classes = useStyles();
-  const timer = useSelector(state => state.timer.timer);
 
   return (
     <Paper className={classes.root} elevation={3}>

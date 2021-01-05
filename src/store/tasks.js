@@ -1,7 +1,7 @@
 import { exampleData } from "../utils/exampleData";
 
 // Actions
-const SET_CURRENT_TASK_NAME = "app/tasks/SET_CURRENT_TASK_NAME";
+const SET_TASK_NAME = "app/tasks/SET_TASK_NAME";
 const ADD_TASK = "app/tasks/ADD_TASK";
 export const DELETE_TASK = "app/tasks/DELETE_TASK";
 const GENERATE_TASKS = "app/tasks/GENERATE_TASKS";
@@ -12,7 +12,7 @@ const HIDE_CONFIRMATION = "app/tasks/HIDE_CONFIRMATION";
 
 // initial state
 const initialState = {
-  currentTaskName: "",
+  taskName: "",
   taskToDelete: null,
   tasks: JSON.parse(localStorage.getItem("tasks")) || [],
   warning: false,
@@ -22,8 +22,8 @@ const initialState = {
 // Reducer
 export default function tasks(state = initialState, action) {
   switch (action.type) {
-    case SET_CURRENT_TASK_NAME:
-      return { ...state, currentTaskName: action.name };
+    case SET_TASK_NAME:
+      return { ...state, taskName: action.name };
     case ADD_TASK:
       const newTask = {
         title: action.task,
@@ -33,7 +33,7 @@ export default function tasks(state = initialState, action) {
       newTask.timeSpent = newTask.endTime - newTask.startTime;
       return {
         ...state,
-        currentTaskName: "",
+        taskName: "",
         tasks: state.tasks.concat([newTask]),
       };
     case DELETE_TASK:
@@ -73,9 +73,9 @@ export function addTask(task, startTime) {
   };
 }
 
-export function setСurrentTaskName(name) {
+export function setTaskName(name) {
   return {
-    type: SET_CURRENT_TASK_NAME,
+    type: SET_TASK_NAME,
     name,
   };
 }

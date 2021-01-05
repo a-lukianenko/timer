@@ -1,23 +1,19 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { setСurrentTaskName } from "../../../store/tasks";
-
-export default function TaskNameInput() {
+export default function TaskNameInput({ dispatch, setTaskName }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const [taskTitle, setTaskTitle] = useState("");
 
-  function handleChange(event) {
-    setTaskTitle(event.target.value);
+  function handleChange({ target }) {
+    setTaskTitle(target.value);
   }
 
-  function handleBlur(event) {
-    dispatch(setСurrentTaskName(taskTitle));
+  function handleBlur(_) {
+    dispatch(setTaskName(taskTitle));
     setTaskTitle("");
   }
 
