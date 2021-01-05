@@ -4,13 +4,13 @@ export default function TimerButton({
   startTime,
   taskName,
   dispatch,
-  startTimer,
+  activateTimer,
   deactivateTimer,
   addTask,
-  showWarning
+  showWarning,
 }) {
-  function runTimer() {
-    dispatch(startTimer());
+  function startTimer() {
+    dispatch(activateTimer());
   }
 
   function stopTimer() {
@@ -27,7 +27,7 @@ export default function TimerButton({
           stop
         </Button>
       ) : (
-        <Button size='medium' variant='contained' onClick={runTimer}>
+        <Button size='medium' variant='contained' onClick={startTimer}>
           start
         </Button>
       )}

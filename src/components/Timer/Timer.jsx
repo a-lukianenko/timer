@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // MUI
@@ -10,24 +10,37 @@ import TitleInput from "./TitleInput/TitleInput";
 import TimerButton from "./TimerButton/TimerButton";
 import Warning from "../Modal/Warning";
 
-import { startTimer, deactivateTimer } from "../../store/timer";
+import { activateTimer, deactivateTimer } from "../../store/timer";
 import { showWarning, addTask, setTaskName } from "../../store/tasks";
 
 export default function Timer() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const timer = useSelector(state => state.timer.timer);
   const startTime = useSelector(state => state.timer.startTime);
   const taskName = useSelector(state => state.tasks.taskName);
 
+  const [timer, setTimer] = useState(
+    startTime ? new Date(Date.now() - startTime) : new Date(0)
+  );
+
+  // start timer
   useEffect(() => {
-    startTime && dispatch(startTimer());
+    let id;
+    if (startTime) {
+      id = setInterval(() => {
+        setTimer(new Date(new Date(timer).getTime() + 1000));
+      }, 1000);
+    }
     return () => {
-      dispatch(deactivateTimer());
+      clearInterval(id);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [timer, startTime]);
+
+  // stop timer
+  useEffect(() => {
+    !startTime && setTimer(new Date(0));
+  }, [startTime]);
 
   return (
     <Grid
@@ -48,7 +61,7 @@ export default function Timer() {
           startTime={startTime}
           taskName={taskName}
           dispatch={dispatch}
-          startTimer={startTimer}
+          activateTimer={activateTimer}
           deactivateTimer={deactivateTimer}
           addTask={addTask}
           showWarning={showWarning}
