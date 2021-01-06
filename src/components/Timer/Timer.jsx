@@ -8,17 +8,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import StopWatch from "./StopWatch/StopWatch";
 import TitleInput from "./TitleInput/TitleInput";
 import TimerButton from "./TimerButton/TimerButton";
-import Warning from "../Modal/Warning";
+// import Warning from "../Modal/Warning";
 
-import { activateTimer, deactivateTimer } from "../../store/timer";
-import { showWarning, addTask, setTaskName } from "../../store/tasks";
+import { activateTimer, deactivateTimer, setTaskName } from "../../store/timer";
+import { addTask } from "../../store/tasks";
 
 export default function Timer() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
   const startTime = useSelector(state => state.timer.startTime);
-  const taskName = useSelector(state => state.tasks.taskName);
+  const taskName = useSelector(state => state.timer.taskName);
 
   const [timer, setTimer] = useState(
     startTime ? new Date(Date.now() - startTime) : new Date(0)
@@ -64,10 +64,9 @@ export default function Timer() {
           activateTimer={activateTimer}
           deactivateTimer={deactivateTimer}
           addTask={addTask}
-          showWarning={showWarning}
+          setTaskName={setTaskName}
         />
       </Grid>
-      <Warning />
     </Grid>
   );
 }

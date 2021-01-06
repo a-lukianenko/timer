@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 import Button from "@material-ui/core/Button";
+import Warning from "../../Modal/Warning";
 
 export default function TimerButton({
   startTime,
@@ -7,17 +10,24 @@ export default function TimerButton({
   activateTimer,
   deactivateTimer,
   addTask,
-  showWarning,
+  setTaskName,
 }) {
   function startTimer() {
     dispatch(activateTimer());
   }
 
   function stopTimer() {
-    if (!taskName) return dispatch(showWarning());
+    if (!taskName) return setWarning(true);
 
+    dispatch(setTaskName(""));
     dispatch(addTask(taskName, startTime));
     dispatch(deactivateTimer());
+  }
+
+  const [warning, setWarning] = useState(false);
+
+  function closeWarning() {
+    setWarning(false);
   }
 
   return (
@@ -31,6 +41,7 @@ export default function TimerButton({
           start
         </Button>
       )}
+      <Warning warning={warning} closeWarning={closeWarning} />
     </>
   );
 }

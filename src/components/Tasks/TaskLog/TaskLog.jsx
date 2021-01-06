@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -12,17 +12,31 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-import { showConfirmation } from "../../../store/tasks";
-import { formatDate } from "../../../utils/formatDate";
 import Confirmation from "../../Modal/Confirmation";
+import { formatDate } from "../../../utils/formatDate";
+import { deleteTask } from "../../../store/tasks";
 
 export default function TaskLog() {
   const classes = useStyles();
   const tasks = useSelector(state => state.tasks.tasks);
   const dispatch = useDispatch();
 
-  function handleClick(taskId) {
-    dispatch(showConfirmation(taskId));
+  const [confirmation, setConfirmation] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState("");
+
+  function showConfirmation(task) {
+    setConfirmation(true);
+    setTaskToDelete(task);
+  }
+
+  function cancelDelete() {
+    setConfirmation(false);
+    setTaskToDelete("");
+  }
+
+  function confirmDelete() {
+    setConfirmation(false);
+    dispatch(deleteTask(taskToDelete.startTime));
   }
 
   if (!tasks.length) return <h3 className={classes.h3}>No tasks yet!</h3>;
@@ -71,7 +85,7 @@ export default function TaskLog() {
                   <Button
                     variant='contained'
                     size='small'
-                    onClick={() => handleClick(task.startTime)}
+                    onClick={() => showConfirmation(task)}
                   >
                     DELETE
                   </Button>
@@ -81,7 +95,12 @@ export default function TaskLog() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Confirmation />
+      <Confirmation
+        confirmation={confirmation}
+        taskToDelete={taskToDelete}
+        cancelDelete={cancelDelete}
+        confirmDelete={confirmDelete}
+      />
     </>
   );
 }
