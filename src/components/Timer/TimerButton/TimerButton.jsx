@@ -12,6 +12,8 @@ export default function TimerButton({
   addTask,
   setTaskName,
 }) {
+  const [warning, setWarning] = useState(false);
+
   function startTimer() {
     dispatch(activateTimer());
   }
@@ -23,8 +25,6 @@ export default function TimerButton({
     dispatch(addTask(taskName, startTime));
     dispatch(deactivateTimer());
   }
-
-  const [warning, setWarning] = useState(false);
 
   function closeWarning() {
     setWarning(false);
