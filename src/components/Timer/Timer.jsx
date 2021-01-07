@@ -29,7 +29,7 @@ export default function Timer() {
     let id;
     if (startTime) {
       id = setInterval(() => {
-        setTimer(new Date(new Date(timer).getTime() + 1000));
+        setTimer(new Date(Date.now() - startTime));
       }, 1000);
     }
     return () => {

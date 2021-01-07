@@ -9,8 +9,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import GenerateTasksBtn from "./GenerateTasksBtn";
-
 export default function Chart({ data, labels, getRandomColor }) {
   return (
     <div style={{ width: "100%", height: 300 }}>
@@ -42,7 +40,6 @@ export default function Chart({ data, labels, getRandomColor }) {
           ))}
         </BarChart>
       </ResponsiveContainer>
-      <GenerateTasksBtn className={"btnRight"} />
     </div>
   );
 }

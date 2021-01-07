@@ -24,7 +24,12 @@ export default function TaskChart() {
       </>
     );
 
-  return <Chart data={data} labels={labels} getRandomColor={getRandomColor} />;
+  return (
+    <>
+      <Chart data={data} labels={labels} getRandomColor={getRandomColor} />;
+      <GenerateTasksBtn className={"btnRight"} />
+    </>
+  );
 }
 
 const useStyles = makeStyles(theme => ({
